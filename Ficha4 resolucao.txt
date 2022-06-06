@@ -1,0 +1,59 @@
+1.
+
+R0:
+router ospf 100
+network 172.16.(X+1).0 0.0.0.255 area 0
+network 172.16.(X+2).0 0.0.0.255 area 0
+
+R1:
+router ospf 100
+network 172.16.(X+1).0 0.0.0.255 area 0
+network 192.168.(X+1).0 0.0.0.255 area 1
+
+R2:
+router ospf 100
+network 172.16.(X+2).0 0.0.0.255 area 0
+network 192.168.(X+2).0 0.0.0.255 area 2
+
+2.
+
+R1:
+router ospf 100
+network 172.16.(X+1).0 0.0.0.255 area 0
+network 192.168.(X+1).0 0.0.0.255 area 1
+area 1 nssa
+
+R2:
+router rip
+network 192.168.(X+2).0
+
+router ospf 100
+redistribute rip subnets
+network 192.168.(X+1).0 0.0.0.255 area 1
+area 1 nssa
+
+R0:
+router ospf 100
+network 172.16.(X+1).0 0.0.0.255 area 0
+
+Host no R2:
+Centro de rede e partilha
+Wifi
+Propriedades 
+Internet protocol v4
+Propriedades
+Utilizar o seguinte endereço: 192.168.(X+2).253
+
+usar: show ip route
+Check that the routes injected by RIP show up in the routing tables.
+Check the connectivity between the various sub-networks, using the ‘ping’
+command. In particular, check the connectivity with the RIP networks
+
+3.
+
+R2:
+router ospf 100
+no redistribute rip subnets
+no area 1 nssa
+network 172.16.(X+2).0 0.0.0.255 area 1    ???
+

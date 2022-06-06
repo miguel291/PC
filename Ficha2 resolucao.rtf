@@ -1,0 +1,129 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-BoldOblique;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-Bold;
+\f3\fmodern\fcharset0 CourierNewPSMT;\f4\froman\fcharset0 Times-Roman;\f5\fmodern\fcharset0 CourierNewPS-BoldMT;
+\f6\fnil\fcharset0 AndaleMono;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red171\green173\blue176;\red35\green37\blue41;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c72549\c73333\c74510;\cssrgb\c18431\c19216\c21176;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{none\}.}{\leveltext\leveltemplateid1\'01.;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16600\viewh19380\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\i\b\fs40 \cf0 Exercicio 1\
+
+\f1\i0\b0\fs32 \
+
+\f2\b Configurar o NAT\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f3\b0\fs34\fsmilli17333 \cf2 \expnd0\expndtw0\kerning0
+R1#config t\uc0\u8232 R1(config)#access-list 25 permit 192.168.X.0 0.0.0.255 \
+R1(config)#ip nat inside source list 25 interface FastEthernet0 overload \
+R1(config)#interface Ethernet0\uc0\u8232 R1(config-if)#ip address 192.168.X.254 255.255.255.0 \
+R1(config-if)#ip nat inside\uc0\u8232 R1(config-if)#exit\u8232 R1(config)#interface FastEthernet0\u8232 R1(config-if)#ip address 10.254.0.N 255.255.255.0\u8232 R1(config-if)#ip nat outside\u8232 R1(config-if)#end\u8232 R1# 
+\f4\fs32 \
+
+\f2\b Configurar o IP do PC\
+
+\f1\b0 192.168.X.100 255.255.255.0 (no Windows)\
+Centro de rede e partilha\
+Wifi\
+Propriedades \
+Internet protocol v4\
+Propriedades\
+Utilizar o seguinte endere\'e7o\
+
+\f2\b Ping\
+
+\f1\b0 cmd ping\
+\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\i\b\fs40 \cf2 Exercicio 2\
+
+\f3\i0\b0\fs28\fsmilli14333 R1#config t\uc0\u8232 R1(config)#access-list 25 deny 192.168.X.200 0.0.0.255\
+R1(config)#access-list 25 permit 192.168.X.0 0.0.0.255 \
+R1(config)#ip nat inside source static 192.168.X.200 10.254.0.(N*16+1)\
+R1(config)#ip nat pool net-TESTE 10.254.0.(N*16+2) 10.254.0.(N*16+5) netmask 255.255.255.0\uc0\u8232 R1(config)#ip nat inside source list 25 pool net-TESTE overload \
+R1(config)#interface Ethernet0\uc0\u8232 R1(config-if)#ip address 192.168.X.254 255.255.255.0 \
+R1(config-if)#ip nat inside
+\fs32\fsmilli16333 \
+
+\fs26\fsmilli13333 R1(config-if)#exit\uc0\u8232 R1(config)#interface FastEthernet0\u8232 R1(config-if)#ip address 10.254.0.N 255.255.255.0 \
+R1(config-if)#ip nat outside\uc0\u8232 R1(config-if)#end\u8232 R1# \
+
+\f5\b\fs32\fsmilli16333 Config PC\
+
+\f3\b0 192.168.X.200\
+Ping\
+Na consola do lab server ver o IP \'91outside local\'92 (ouvir o stor)\
+Reconfigurar PC com address da rede 
+\fs28\fsmilli14333 192.168.X.0 
+\fs32\fsmilli16333  \
+Fazer ping e ver resultado na consola do lab server
+\f4\fs24 \
+
+\f3\fs32\fsmilli16333  \
+
+\f0\i\b\fs40 Exercicio 3\
+
+\f3\i0\b0\fs28\fsmilli14333 R1#config t\
+//should you be here ???????\'92\uc0\u8232 R1(config)#access-list 25 deny 192.168.X.200 0.0.0.255. \
+R1(config)#access-list 25 permit 192.168.X.0 0.0.0.255 \
+R1(config)#ip nat inside source static 192.168.X.200 10.254.0.(N*16+1)\
+\pard\pardeftab720\partightenfactor0
+
+\f6\fs28 \cf3 \cb4 ip nat pool net-TESTE 172.16.(X+N).29 172.16.(X+N).30 netmask 255.255.255.0\
+ip nat inside source list 1 pool net-TESTE overload\
+access-list 1 permit 192.168.X.0 0.0.0.255
+\f3\fs28\fsmilli14333 \cf2 \cb1 \
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 R1(config)#interface Ethernet0\uc0\u8232 R1(config-if)#ip address 192.168.X.254 255.255.255.0 \
+R1(config-if)#ip nat inside
+\fs32\fsmilli16333 \
+
+\fs26\fsmilli13333 R1(config-if)#exit\uc0\u8232 R1(config)#interface FastEthernet0\u8232 R1(config-if)#ip address 10.254.N.0 255.255.255.0 \
+R1(config-if)#ip nat outside\uc0\u8232 R1(config-if)#end\u8232 R1# 
+\f0\i\b\fs40 \
+\pard\pardeftab720\partightenfactor0
+
+\f4\i0\b0\fs24 \cf2 \
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 \
+
+\f0\i\b\fs40 Exercicio 4\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\i0\b0\fs32 \cf2 Experimentar os comandos e interpretar output
+\f4\fs24 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0
+\f3\fs26\fsmilli13333 \cf2 \kerning1\expnd0\expndtw0 {\listtext	.	}\expnd0\expndtw0\kerning0
+R1#show ip nat translation \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	.	}\expnd0\expndtw0\kerning0
+R1#clear ip nat translation * \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	.	}\expnd0\expndtw0\kerning0
+R1#show ip nat statistics \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	.	}\expnd0\expndtw0\kerning0
+R1#clear ip nat statistics \
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	.	}\expnd0\expndtw0\kerning0
+R1#debug ip nat 
+\f4\fs24 \uc0\u8232 
+\f3\fs26\fsmilli13333 R1#debug ip nat detailed 
+\f4\fs24 \uc0\u8232 \
+\pard\pardeftab720\sa240\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f2\b\fs32 \cf2 \
+Erros\
+
+\f1\b0 Esquecemo-nos do \'91no shutdown\'92\
+Fechar janelas ao definir IP do computador\
+Erro do nome da pool (n\'e3o alteramos o nome do exemplo)\
+
+\f2\b \
+\
+}

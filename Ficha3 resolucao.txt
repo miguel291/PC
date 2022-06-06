@@ -1,0 +1,107 @@
+Exercício 1:
+
+Exercício 2:
+
+R1#config t
+R1(config)#interface Ethernet0
+R1(config-if)#ip address 192.168.(X+1).254 255.255.255.0 
+R1(config-if)#no shutdown
+R1(config-if)#exit
+R1(config)#interface FastEthernet0
+R1(config-if)#ip address 1922.168.(X+2).254 255.255.255.0
+R1(config-if)#no shutdown
+R1(config-if)#end
+Configurar o IP do PC
+192.168.X.100 255.255.255.0 (no Windows)
+Centro de rede e partilha
+Wifi
+Propriedades 
+Internet protocol v4
+Propriedades
+Utilizar o seguinte endereço: 192.168.(X+1).253
+Host B: 192.168.(X+4).253
+R3: Interface 2: 192.168.(X+4).254
+    Interface 1: 192.168.(X+3).254
+R2: Interface 2: 192.168.(X+2).253
+    Interface 1: 192.168.(X+3).253
+
+ping R1
+ping R2
+ping até deixar de dar
+
+R1#show ip route
+Interpretar resultado nos 3 routers
+
+Ocorre timeout para a Interface 1 do R2 porque não foi implementado o mecanismo de NAT e assim o router dois não sabe para onde mandar o pacote com destino à rede 192.168.(X+1).0
+
+Ocorre host unreachable para a Interface 2 do R2 porque o router R1 não sabe como alcançar a rede 192.168.(X+3).0, uma vez que não há rotas definidas.
+
+
+Exercício 3:
+
+R1#config t
+R1(config)#ip route 192.168.(X+3).0 255.255.255.0 <end_IP_R2_if1>
+R1(config)#ip route 192.168.(X+4).0 255.255.255.0 <end_IP_R2_if1>
+
+R2#config t
+R2(config)#ip route 192.168.(X+1).0 255.255.255.0 <end_IP_R1_if2>
+R2(config)#ip route 192.168.(X+4).0 255.255.255.0 <end_IP_R3_if1>
+
+R3#config t
+R3(config)#ip route 192.168.(X+1).0 255.255.255.0 <end_IP_R2_if2>
+R3(config)#ip route 192.168.(X+2).0 255.255.255.0 <end_IP_R2_if2>
+
+show ip route
+
+ping do A para o B
+
+Exercício 4:
+
+R1#config t
+R1(config)#no ip route 192.168.(X+3).0 255.255.255.0 <end_IP_R2_if1>
+R1(config)#no ip route 192.168.(X+4).0 255.255.255.0 <end_IP_R2_if1>
+
+R3#config t
+R3(config)#no ip route 192.168.(X+1).0 255.255.255.0 <end_IP_R2_if2>
+R3(config)#no ip route 192.168.(X+2).0 255.255.255.0 <end_IP_R2_if2>
+
+R1#config t
+R1(config)#ip route 0.0.0.0 0.0.0.0 <end_IP_R2_if1>
+
+R3#config t
+R1(config)#ip route 0.0.0.0 0.0.0.0 <end_IP_R2_if2>
+
+Exercício 5:
+
+R1#config t
+R1(config)#router rip 
+R1(config-router)#version 2 
+R1(config-router)#network 192.168.(X+1).0 
+R1(config-router)#network 192.168.(X+2).0 
+R1(config-router)#passive-interface interface1 
+R1(config-router)#^Z
+R1#
+
+R3:
+R3#config t
+R3(config)#router rip 
+R3(config-router)#version 2 
+R3(config-router)#network 192.168.(X+4).0 
+R3(config-router)#network 192.168.(X+3).0 
+R3(config-router)#passive-interface interface2
+R3(config-router)#^Z
+R3#
+
+R2:
+R2#config t
+R2(config)#router rip 
+R2(config-router)#version 2 
+R2(config-router)#network 192.168.(X+2).0 
+R2(config-router)#network 192.168.(X+3).0 ✌🏿😩
+R2(config-router)#^Z
+R2#
+
+😩😩💕👌🏿
+ping
+show ip route 
+show ip route <end_destino>
