@@ -1,0 +1,63 @@
+Exercicio 1
+
+Configurar o NAT
+R1#config t R1(config)#access-list 25 permit 192.168.X.0 0.0.0.255 
+R1(config)#ip nat inside source list 25 interface FastEthernet0 overload 
+R1(config)#interface Ethernet0 R1(config-if)#ip address 192.168.X.254 255.255.255.0 
+R1(config-if)#ip nat inside R1(config-if)#exit R1(config)#interface FastEthernet0 R1(config-if)#ip address 10.254.0.N 255.255.255.0 R1(config-if)#ip nat outside R1(config-if)#end R1# 
+Configurar o IP do PC
+192.168.X.100 255.255.255.0 (no Windows)
+Centro de rede e partilha
+Wifi
+Propriedades 
+Internet protocol v4
+Propriedades
+Utilizar o seguinte endereço
+Ping
+cmd ping
+
+Exercicio 2
+R1#config t R1(config)#access-list 25 deny 192.168.X.200 0.0.0.255
+R1(config)#access-list 25 permit 192.168.X.0 0.0.0.255 
+R1(config)#ip nat inside source static 192.168.X.200 10.254.0.(N*16+1)
+R1(config)#ip nat pool net-TESTE 10.254.0.(N*16+2) 10.254.0.(N*16+5) netmask 255.255.255.0 R1(config)#ip nat inside source list 25 pool net-TESTE overload 
+R1(config)#interface Ethernet0 R1(config-if)#ip address 192.168.X.254 255.255.255.0 
+R1(config-if)#ip nat inside
+R1(config-if)#exit R1(config)#interface FastEthernet0 R1(config-if)#ip address 10.254.0.N 255.255.255.0 
+R1(config-if)#ip nat outside R1(config-if)#end R1# 
+Config PC
+192.168.X.200
+Ping
+Na consola do lab server ver o IP ‘outside local’ (ouvir o stor)
+Reconfigurar PC com address da rede 192.168.X.0  
+Fazer ping e ver resultado na consola do lab server
+ 
+Exercicio 3
+R1#config t
+//should you be here ???????’ R1(config)#access-list 25 deny 192.168.X.200 0.0.0.255. 
+R1(config)#access-list 25 permit 192.168.X.0 0.0.0.255 
+R1(config)#ip nat inside source static 192.168.X.200 10.254.0.(N*16+1)
+ip nat pool net-TESTE 172.16.(X+N).29 172.16.(X+N).30 netmask 255.255.255.0
+ip nat inside source list 1 pool net-TESTE overload
+access-list 1 permit 192.168.X.0 0.0.0.255
+R1(config)#interface Ethernet0 R1(config-if)#ip address 192.168.X.254 255.255.255.0 
+R1(config-if)#ip nat inside
+R1(config-if)#exit R1(config)#interface FastEthernet0 R1(config-if)#ip address 10.254.N.0 255.255.255.0 
+R1(config-if)#ip nat outside R1(config-if)#end R1# 
+
+
+Exercicio 4
+Experimentar os comandos e interpretar output
+	.	R1#show ip nat translation 
+	.	R1#clear ip nat translation * 
+	.	R1#show ip nat statistics 
+	.	R1#clear ip nat statistics 
+	.	R1#debug ip nat  R1#debug ip nat detailed  
+
+
+Erros
+Esquecemo-nos do ‘no shutdown’
+Fechar janelas ao definir IP do computador
+Erro do nome da pool (não alteramos o nome do exemplo)
+
+
